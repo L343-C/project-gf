@@ -79,7 +79,7 @@ function App() {
                 </p>
               </div>
             ) : (
-              <p className='font-medium text-blue-600' onClick={popSoundRef} >Click here to read the message</p>
+              <p className='font-medium text-blue-600'>Click here to read the message</p>
             )}
           </div>
         </main>
