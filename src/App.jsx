@@ -6,6 +6,7 @@ function App() {
   const [gif, setGif] = useState("https://media.tenor.com/K0Op-0SpsvkAAAAj/dudu-cute.gif");
   const [question, setQuestion] = useState("รักเค้าไหมอ้วน");
   const [isNotLoveClicked, setIsNotLoveClicked] = useState(false);
+  const [heartVisible, setHeartVisible] = useState(false);  // State to control heart visibility
 
   const popSoundRef = useRef(null);
 
@@ -49,6 +50,16 @@ function App() {
     }
   };
 
+  // Trigger heart effect when clicking the message
+  const triggerHeartEffect = () => {
+    setHeartVisible(true);
+    setTimeout(() => {
+      setHeartVisible(false);  // Hide the heart after animation ends
+    }, 1000);  // Duration of the heart animation
+  };
+
+  
+
   return (
     <div className="bg-[#FCFFC1] bg-gradient-to-tr from-[#FBB4A5] min-h-screen text-center text-gray-800">
       <header className="bg-[#FB9EC6] text-white py-6 text-3xl font-bold">
@@ -69,7 +80,7 @@ function App() {
 
           <div
             className="message text-base leading-relaxed sm:text-lg cursor-pointer"
-            onClick={showMessage}
+            onClick={() => { showMessage(); triggerHeartEffect(); }}  // Trigger both message and heart effect
           >
             {isVisible ? (
               <div className="opacity-100 transition-opacity duration-1000">
@@ -79,7 +90,7 @@ function App() {
                 </p>
               </div>
             ) : (
-              <p className='font-medium text-blue-600'>Click here to read the message</p>
+              <p className='fade-in2 font-medium text-blue-600'>Click here to read the message</p>
             )}
           </div>
         </main>
@@ -107,6 +118,13 @@ function App() {
           </button>
         </div>
       </div>
+
+      {/* Heart effect container */}
+      {heartVisible && (
+        <div className="heart-effect absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse">
+          ❤️
+        </div>
+      )}
     </div>
   );
 }
