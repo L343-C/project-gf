@@ -65,7 +65,7 @@ function App() {
           <div className="photo my-6">
             {/* Add your favorite photo of your partner here */}
             <img 
-              src="/Kaem.png" 
+              src="https://l343-c.github.io/project-gf/Kaem.png" 
               alt="" 
               className="w-full rounded-lg"
             />
@@ -92,7 +92,7 @@ function App() {
       </div>
 
       {/* Audio Element to play song.mp3 */}
-      <audio ref={audioRef} src="/song.mp3" autoPlay />
+      <audio ref={audioRef} src="https://l343-c.github.io/project-gf/song.mp3" autoPlay />
       
       <div className="wrapper relative max-w-xl w-full mx-auto bg-gradient-to-tr from-pink-200 to-yellow-200 p-8 rounded-3xl text-center shadow-lg">
       <h2 className="text-3xl text-pink-600 font-semibold my-4">{question}</h2>
