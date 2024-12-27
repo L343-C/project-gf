@@ -6,7 +6,8 @@ function App() {
   const [gif, setGif] = useState("https://media.tenor.com/K0Op-0SpsvkAAAAj/dudu-cute.gif");
   const [question, setQuestion] = useState("รักเค้าไหมอ้วน");
   const [isNotLoveClicked, setIsNotLoveClicked] = useState(false);
-  const [heartVisible, setHeartVisible] = useState(false);  // State to control heart visibility
+  const [heartVisible, setHeartVisible] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(true);
 
   const popSoundRef = useRef(null);
 
@@ -50,6 +51,17 @@ function App() {
     }
   };
 
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isMusicPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsMusicPlaying(!isMusicPlaying);
+    }
+  };
+
   // Trigger heart effect when clicking the message
   const triggerHeartEffect = () => {
     setHeartVisible(true);
@@ -64,6 +76,12 @@ function App() {
     <div className="bg-[#FCFFC1] bg-gradient-to-tr from-[#FBB4A5] min-h-screen text-center text-gray-800">
       <header className="bg-[#FB9EC6] text-white py-6 text-3xl font-bold">
         สุขสันต์วันเกิดแก้มนะะ ❤️🎉
+        <button
+          className="ml-4 px-4 py-2 bg-white text-pink-600 rounded-full shadow-md"
+          onClick={toggleMusic}
+        >
+          {isMusicPlaying ? "Pause Music" : "Play Music"}
+        </button>
       </header>
 
       {confettiVisible && <Confetti width={windowWidth} height={windowHeight} />}
