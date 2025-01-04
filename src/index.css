@@ -56,4 +56,29 @@
   }
 }
 
+.balloon-container {
+  position: relative;
+  height: 300px;
+}
+
+.bottle {
+  width: 100px;
+}
+
+.balloon {
+  width: 50px;
+  animation: rise 5s linear infinite;
+}
+
+@keyframes rise {
+  0% {
+    bottom: 0;
+    opacity: 1;
+  }
+  100% {
+    bottom: 300px;
+    opacity: 0;
+  }
+}
+
 
