@@ -6,22 +6,20 @@ function App() {
   const [gif, setGif] = useState("https://media.tenor.com/K0Op-0SpsvkAAAAj/dudu-cute.gif");
   const [question, setQuestion] = useState("รักเค้าไหมอ้วน");
   const [isNotLoveClicked, setIsNotLoveClicked] = useState(false);
-  const [heartVisible, setHeartVisible] = useState(false);
-  const [isMusicPlaying, setIsMusicPlaying] = useState(true);
-  const [showBalloon, setShowBalloon] = useState(false);
+  const [heartVisible, setHeartVisible] = useState(false);  // State to control heart visibility
+  const [isMusicPlaying, setIsMusicPlaying] = useState(true); // State for music toggle
 
   const popSoundRef = useRef(null);
+  const audioRef = useRef(null);
 
   const handleYesClick = () => {
     setGif("https://media.tenor.com/-aW73OVUtyYAAAAi/tkthao219-bubududu.gif");
     setQuestion("เค้าก็รักอ้วนนะะะ <3 <3");
     playPopSound();
-    setShowBalloon(true); // Show the balloon on "Yes" click
   };
 
   const handleNoClick = () => {
     setIsNotLoveClicked(true);
-    playPopSound();
   };
 
   const playPopSound = () => {
@@ -30,6 +28,28 @@ function App() {
     }
   };
 
+  const [isVisible, setIsVisible] = useState(false);
+  const [confettiVisible, setConfettiVisible] = useState(false);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
+  const showMessage = () => {
+    if (!isVisible) {
+      setIsVisible(true);
+      setConfettiVisible(true);
+
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+
+      setTimeout(() => {
+        setConfettiVisible(false);
+      }, 15000);
+    }
+  };
+
+  // Toggle music play/pause
   const toggleMusic = () => {
     if (audioRef.current) {
       if (isMusicPlaying) {
@@ -41,10 +61,18 @@ function App() {
     }
   };
 
+  // Trigger heart effect when clicking the message
+  const triggerHeartEffect = () => {
+    setHeartVisible(true);
+    setTimeout(() => {
+      setHeartVisible(false);  // Hide the heart after animation ends
+    }, 1000);  // Duration of the heart animation
+  };
+
   return (
     <div className="bg-[#FCFFC1] bg-gradient-to-tr from-[#FBB4A5] min-h-screen text-center text-gray-800">
       <header className="bg-[#FB9EC6] text-white py-6 text-3xl font-bold">
-        สุขสันต์วันเกิดแก้มนะะ ❤️🎉
+        สุขสันต์วันเกิดแก้มนะะ ย้อนหลัง ❤️🎉
         <button
           className="ml-4 px-4 py-2 bg-white text-pink-600 rounded-full shadow-md"
           onClick={toggleMusic}
@@ -53,20 +81,38 @@ function App() {
         </button>
       </header>
 
-      {showBalloon && (
-        <div className="balloon-container relative">
-          <img
-            src="https://example.com/balloon.png" // Replace with the balloon image URL
-            alt="Balloon"
-            className="balloon absolute bottom-0 left-1/2 transform -translate-x-1/2 animate-rise"
-          />
-          <img
-            src="https://example.com/bottle.png" // Replace with the bottle image URL
-            alt="Bottle"
-            className="bottle mx-auto"
-          />
-        </div>
-      )}
+      {confettiVisible && <Confetti width={windowWidth} height={windowHeight} />}
+
+      <div className="flex justify-center items-center mx-4 sm:mx-6 lg:mx-8 my-4">
+        <main className="max-w-xl mx-auto px-4 py-4 bg-white rounded-lg shadow-md sm:my-8 sm:p-6 md:my-12 md:p-8">
+          <div className="photo my-6">
+            <img 
+              src="https://l343-c.github.io/project-gf/Kaem.png" 
+              className="w-full rounded-lg"
+            />
+          </div>
+
+          <div
+            className="message text-base leading-relaxed sm:text-lg cursor-pointer"
+            onClick={() => { showMessage(); triggerHeartEffect(); }}  // Trigger both message and heart effect
+          >
+            {isVisible ? (
+              <div className="opacity-100 transition-opacity duration-1000">
+                <p>
+                  <p className='font-semibold text-orange-400'>Dear แก้ม</p>
+                  ขอบคุณนะแก้มที่อยู่ข้างเค้ามาตลอดของขวัญชิ้นนี้เค้าหวังว่าเธอจะชอบนะ ถึงเว็ปที่เค้าทําจะไม่ได้อลังการมากแต่เค้าก็อยากมอบสิ่งที่เค้าชอบทําให้กับคนที่เค้ารักมากก ทั้งหมดเค้าทําจากใจนะะ❤️❤️ อายุ 16 แล้วเติบโตขึ้นอีกปีแล้วเค้าขอให้ปีนี้เธอมีความสุขมากๆนะดูแลสุขภาพตัวเยอะๆด้วยอย่าป่วยบ่อย ถึงจะมีอะไรที่เสียใจบ้างผิดหวังบ้างท้อบ้างแต่อย่างน้อยเธอก็มีเค้าอยู่ข้างๆตลอดนะ ขอให้เธอสมหวังกับสิ่งที่เธอจะทํากับสิ่งที่เธอจะเป็นนะเค้าเป็นกําลังใจให้เธอเสมอเลยยไอ้อ้วน รักเค้าแล้วอย่าลืมรักตัวเองด้วยนะคนสวยเราจะโตไปพร้อมกันนะแล้วก็จะผ่านอะไรยากๆไปด้วยกันด้วยยย รักแก้มที่สุดในโลกกก😊😊
+                </p>
+              </div>
+            ) : (
+              <p className='fade-in2 font-medium text-blue-600'>Click here to read the message</p>
+            )}
+          </div>
+        </main>
+      </div>
+
+      <audio ref={audioRef} src="https://l343-c.github.io/project-gf/song.mp3" autoPlay />
+      
+      <audio ref={popSoundRef} src="https://l343-c.github.io/project-gf/pop.mp3" />
 
       <div className="wrapper relative pb-8 max-w-xl w-full mx-auto bg-gradient-to-tr from-pink-200 to-yellow-200 p-8 rounded-3xl text-center shadow-lg">
         <h2 className="text-3xl text-pink-600 font-semibold my-4">{question}</h2>
@@ -87,7 +133,12 @@ function App() {
         </div>
       </div>
 
-      <audio ref={popSoundRef} src="https://l343-c.github.io/project-gf/pop.mp3" />
+      {/* Heart effect container */}
+      {heartVisible && (
+        <div className="heart-effect absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse">
+          ❤️
+        </div>
+      )}
     </div>
   );
 }
